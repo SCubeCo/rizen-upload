@@ -1,0 +1,55 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash(git *)",
+      "Bash(npm run *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Bash(dotnet *)",
+      "Bash(go *)",
+      "Bash(make *)",
+      "Bash(curl *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(wc *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(tail *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You are an architecture reviewer. Evaluate the code change for violations.\n\nDESIGN SMELLS: Feature Envy, Leaky Abstraction, God Object, Shotgun Surgery, Premature Abstraction, Train Wreck (long accessor chains), Anemic Domain Model.\n\nBEHAVIOURAL: Law of Demeter (only talk to immediate collaborators), Tell Don't Ask, no Flag Arguments, no Stringly Typed code.\n\nPRINCIPLES: Single Responsibility, Separation of Concerns, Encapsulation, Cohesion, Explicit over Implicit, Composition over Inheritance, Fail Fast, Don't Repeat Yourself.\n\nALWAYS PREFER: Guard clauses over deep nesting, domain types over primitives, intent-level APIs over mechanism-level ones, explicit dependencies over hidden coupling.\n\nApprove if compliant. Reject and name the specific violation if not.",
+            "model": "claude-sonnet-4-6",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "cd \"$(git rev-parse --show-toplevel)\" && FILE=$(jq -r '.tool_response.filePath // .tool_input.file_path' < /dev/stdin) && echo \"$FILE\" | grep -qE '\\.(ts|tsx)$' && { npx eslint --no-warn-ignored \"$FILE\" 2>&1; npx prettier --check \"$FILE\" 2>&1; } || true"
+          }
+        ]
+      }
+    ]
+  }
+}
