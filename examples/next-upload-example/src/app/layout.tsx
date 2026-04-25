@@ -6,8 +6,8 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'next-upload example',
-  description: 'next-upload example',
+  title: 'Client Upload Intake',
+  description: 'SharePoint-based client media intake workflow',
 };
 
 export default function RootLayout({

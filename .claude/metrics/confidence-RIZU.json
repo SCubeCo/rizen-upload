@@ -1,0 +1,15 @@
+{
+  "jira_key": "RIZU",
+  "task_group": "TG1.1 Define Canonical SharePoint Information Architecture",
+  "timestamp": "2026-04-25T00:00:00Z",
+  "dimensions": {
+    "clarity": "green",
+    "precedent": "green",
+    "complexity": "amber",
+    "risk": "amber",
+    "dependency": "amber"
+  },
+  "overall": "amber",
+  "rationale": "Plan and scope are clear with strong precedent in documentation-driven operations design, but execution depends on external tenant details and named owners before final sign-off.",
+  "discovery_health_score": null
+}
